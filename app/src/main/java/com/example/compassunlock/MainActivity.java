@@ -1,23 +1,24 @@
 package com.example.compassunlock;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     // define the display assembly compass picture
     private ImageView image;
 
     // record the compass picture angle turned
-    private float currentDegree = 0f;
+    public float currentDegree = 0f;
 
     public float houseDegree = 320f;
 
@@ -94,11 +95,11 @@ public class MainActivity extends Activity implements SensorEventListener {
     }
 
     /*Function for the button. Edit only this for the screens
-    * tvHeading = the degree that is being shown on the screen
+    * currentDegree = the degree that is being shown on the screen
     * degreeCheck = boolean check if they got it or not
     */
-    public void checkDirection(float tvHeading){
-        if(tvHeading < (houseDegree + 10) && tvHeading > (houseDegree - 10)){
+    public void checkDirection(View view){
+        if(currentDegree < (houseDegree + 10) && currentDegree > (houseDegree - 10)){
             degreeCheck = true;
         }
         else{

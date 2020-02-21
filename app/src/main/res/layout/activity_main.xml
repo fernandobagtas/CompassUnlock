@@ -36,6 +36,7 @@
         android:layout_marginEnd="138dp"
         android:layout_marginRight="138dp"
         android:layout_marginBottom="60dp"
+        android:onClick="checkDirection"
         android:text="Unlock" />
 
     <ImageView
@@ -46,7 +47,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="236dp"
         android:layout_marginRight="236dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="80dp"
         android:src="@drawable/house_white" />
 
     <TextView
