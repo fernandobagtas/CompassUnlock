@@ -6,42 +6,71 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+//import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     // define the display assembly compass picture
-    private ImageView image;
+    public ImageView image1;
+
+    // define the house picture
+    public ImageView image2;
 
     // record the compass picture angle turned
     public float currentDegree = 0f;
 
-    public float houseDegree = 320f;
+    public float houseDegree = -320f;
 
     public boolean degreeCheck;
 
     // device sensor manager
     private SensorManager mSensorManager;
 
+    //define the heading of the direction
     TextView tvHeading;
+
+    //define the other textview
+    TextView saying;
+
+    //define the button
+    Button button;
+
+    RelativeLayout uLayout;
+    RelativeLayout dLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //
-        image = (ImageView) findViewById(R.id.imageViewCompass);
+        // set images
+        image1 = (ImageView) findViewById(R.id.imageViewCompass);
+        image2 = (ImageView) findViewById(R.id.imageView2);
 
         // TextView that will tell the user what degree is he heading
         tvHeading = (TextView) findViewById(R.id.tvHeading);
 
+        saying = (TextView) findViewById(R.id.textView);
+
         // initialize your android device sensor capabilities
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+        // set button
+        button = (Button) findViewById(R.id.button);
+
+        // set layouts
+        uLayout = (RelativeLayout) findViewById(R.id.unlockLayout);
+        dLayout = (RelativeLayout) findViewById(R.id.denyLayout);
     }
 
     @Override
@@ -84,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         ra.setFillAfter(true);
 
         // Start the animation
-        image.startAnimation(ra);
+        image1.startAnimation(ra);
         currentDegree = -degree;
 
     }
@@ -101,9 +130,53 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void checkDirection(View view){
         if(currentDegree < (houseDegree + 10) && currentDegree > (houseDegree - 10)){
             degreeCheck = true;
+
+            saying.setVisibility(TextView.INVISIBLE);
+            image2.setVisibility(ImageView.INVISIBLE);
+            button.setVisibility(Button.INVISIBLE);
+            uLayout.setVisibility(RelativeLayout.VISIBLE);
+            new CountDownTimer(3000, 1000){
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    saying.setVisibility(TextView.VISIBLE);
+                    image2.setVisibility(ImageView.VISIBLE);
+                    button.setVisibility(Button.VISIBLE);
+                    uLayout.setVisibility(RelativeLayout.INVISIBLE);
+
+                    System.exit(0);
+                }
+            }.start();
+
+
         }
         else{
             degreeCheck = false;
+            Log.d("HEADING", Float.toString(currentDegree));
+            Log.d("HEADING", Float.toString(houseDegree));
+
+            saying.setVisibility(TextView.INVISIBLE);
+            image2.setVisibility(ImageView.INVISIBLE);
+            button.setVisibility(Button.INVISIBLE);
+            dLayout.setVisibility(RelativeLayout.VISIBLE);
+            new CountDownTimer(3000, 1000){
+                @Override
+                public void onTick(long millisUntilFinished) {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    saying.setVisibility(TextView.VISIBLE);
+                    image2.setVisibility(ImageView.VISIBLE);
+                    button.setVisibility(Button.VISIBLE);
+                    dLayout.setVisibility(RelativeLayout.INVISIBLE);
+                }
+            }.start();
         }
     }
 }
