@@ -1,6 +1,8 @@
 package com.example.compassunlock;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     RelativeLayout uLayout;
     RelativeLayout dLayout;
 
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +75,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // set layouts
         uLayout = (RelativeLayout) findViewById(R.id.unlockLayout);
         dLayout = (RelativeLayout) findViewById(R.id.denyLayout);
+
+        //set the screen switcher
+        intent = new Intent(this, HomeScreen.class);
+
+        //set the screen to fullscreen
+        View view = getWindow().getDecorView();
+        view.setSystemUiVisibility
+            (
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                // Hide the nav bar and status bar
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+            );
     }
 
     @Override
@@ -131,11 +153,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if(currentDegree < (houseDegree + 10) && currentDegree > (houseDegree - 10)){
             degreeCheck = true;
 
-            saying.setVisibility(TextView.INVISIBLE);
-            image2.setVisibility(ImageView.INVISIBLE);
-            button.setVisibility(Button.INVISIBLE);
+            saying.setVisibility(TextView.GONE);
+            image2.setVisibility(ImageView.GONE);
+            button.setVisibility(Button.GONE);
             uLayout.setVisibility(RelativeLayout.VISIBLE);
-            new CountDownTimer(3000, 1000){
+            new CountDownTimer(2000, 1000){
                 @Override
                 public void onTick(long millisUntilFinished) {
 
@@ -143,12 +165,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
                 @Override
                 public void onFinish() {
-                    saying.setVisibility(TextView.VISIBLE);
-                    image2.setVisibility(ImageView.VISIBLE);
-                    button.setVisibility(Button.VISIBLE);
-                    uLayout.setVisibility(RelativeLayout.INVISIBLE);
+                    //saying.setVisibility(TextView.VISIBLE);
+                    //image2.setVisibility(ImageView.VISIBLE);
+                    //button.setVisibility(Button.VISIBLE);
+                    //uLayout.setVisibility(RelativeLayout.INVISIBLE);
 
-                    System.exit(0);
+                    startActivity(intent);
+                    //System.exit(0);
                 }
             }.start();
 
@@ -159,11 +182,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Log.d("HEADING", Float.toString(currentDegree));
             Log.d("HEADING", Float.toString(houseDegree));
 
-            saying.setVisibility(TextView.INVISIBLE);
-            image2.setVisibility(ImageView.INVISIBLE);
-            button.setVisibility(Button.INVISIBLE);
+            saying.setVisibility(TextView.GONE);
+            image2.setVisibility(ImageView.GONE);
+            button.setVisibility(Button.GONE);
             dLayout.setVisibility(RelativeLayout.VISIBLE);
-            new CountDownTimer(3000, 1000){
+            new CountDownTimer(2000, 1000){
                 @Override
                 public void onTick(long millisUntilFinished) {
 
