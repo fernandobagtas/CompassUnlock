@@ -47,7 +47,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginEnd="236dp"
         android:layout_marginRight="236dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="187dp"
         android:src="@drawable/house_white" />
 
     <TextView
